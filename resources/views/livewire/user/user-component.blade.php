@@ -114,12 +114,15 @@
                 </div>
 
                 <div class="col-md-12">
-                    @if ($Id > 0)
-                        <x-image :item="$user" size="200" float="float-right" />
-                    @endif
-                    @if ($this->image)
-                        <img src="{{$image->temporaryUrl()}}" class="rounded float-right" width="200">
-                    @endif
+                    
+                @if($Id>0)
+                    <x-image :item="$user=App\Models\User::find($Id)" float="float-right" size="150"/>
+                @endif
+
+                    
+                @if ($this->image)
+                    <img src="{{$image->temporaryUrl()}}" class="rounded float-left" width="200">
+                @endif
                 </div>
             </div>
             <hr>

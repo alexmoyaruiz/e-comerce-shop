@@ -46,6 +46,7 @@ class UserComponent extends Component
         $this->dispatch('open-modal', 'modalUser');
     }
 
+    //Crea un nuevo usuario
     public function store(){
         //dd(1);
         $rules = [
@@ -68,10 +69,10 @@ class UserComponent extends Component
         $user -> admin = $this->admin;
         $user -> save();
 
-        if($this->image){
+        if($this->image){//Establece un nombre único de imagen con el directorio donde se ubica
             $customName = 'users/'.uniqid().'.'.$this->image->extension();
             $this->image->storeAs($customName);
-            $user->image()->create(['url'=> $customName]);
+            $user->image()->create(['url'=> $customName]);//
 
         }
         
@@ -81,13 +82,14 @@ class UserComponent extends Component
     }
 
 
-    public function clean()
+    public function clean()//Limpia todos los campos del modal
     {
         $this->reset(['Id', 'name', 'email', 'password', 'admin', 'active', 'image']);
         $this->resetErrorBag();
     }
 
-    public function edit(User $user){
+    public function edit(User $user){// Limpia y carga todos los campos en el modal con los 
+        //datos del usuario antes de abrir el modal
 
         $this->clean();
         //$this->reset(['name']);
@@ -101,32 +103,37 @@ class UserComponent extends Component
         $this->dispatch('open-modal', 'modalUser');
     }
 
-    public function update(User $user){
+    public function update(User $user){//Actualiza el usuario
         
         $rules = [
-            'name' => 'required|min:5|max:255|unique:users,name'.$this->Id,
-            'email'=> 'required|email|max:255|unique:users,email'.$this->Id,
-            'password'=> 'required|min:5',
-            're_password'=> 'required|same:password',
-            'image' => 'image|max:1024|nullable',
-            
+            'name' => 'required|min:5|max:255',
+            'email'=> 'required|email|max:255|unique:users,id',
+            'password'=> 'min:5|nullable',
+            're_password'=> 'same:password',
+            'image' => 'image|max:1024|nullable',         
         ];
-
+        
         $this->validate($rules);
-
+        
         $user -> name = $this->name;
         $user -> email = $this->email;
         $user-> active = $this->active;
         $user-> admin = $this->admin;
+
+        if($this->password){//Si el usuario introduce contraseña establece la nueva
+            $user->password = $this->password;
+        }
+
         $user->update();
 
+        //Si hay imagen elimina la antigua y coge la nueva
         if($this->image){
             if($user->image!=null){
                 Storage::delete('public/'.$user->image->url);
                 $user->image()->delete();
             }
+        
 
-            
         $customName = 'users/'.uniqid().'.'.$this->image->extension();
         $this->image->storeAs($customName);
         $user->image()->create(['url'=> $customName]);
@@ -134,7 +141,7 @@ class UserComponent extends Component
             
         }
 
-        $this->dispatch('close-modal', 'modalUser');
+        $this->dispatch('close-modal', 'modalUser');//Se cierra el modal y confirma al usuario.
         $this->dispatch('msg', 'Usuario editado correctamente');
 
         $this->clean();
@@ -143,10 +150,10 @@ class UserComponent extends Component
     public function render()
     {
        
-        $this->totalRegistros = User::count();
-        $users = User::where('name', 'like', '%'.$this->search.'%')
-        ->orderBy('id', 'desc') 
-        ->paginate($this->cant);
+        $this->totalRegistros = User::count();//Cuenta el total de registros
+        $users = User::where('name', 'like', '%'.$this->search.'%')//Busca por nombre
+        ->orderBy('id', 'desc') //Ordena por id en orden descendente
+        ->paginate($this->cant);//Estable la paginación en base a la variable $cant
         return view('livewire.user.user-component', [
             'users' => $users,
         ]);

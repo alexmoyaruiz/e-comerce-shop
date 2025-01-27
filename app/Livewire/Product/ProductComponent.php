@@ -22,7 +22,7 @@ class ProductComponent extends Component
     public $search='';
     public $cant=5;
     //Propiedades modelo
-     public $name;
+    public $name;
     public $Id=0;
     public $category_id;
     public $description;
@@ -76,25 +76,8 @@ class ProductComponent extends Component
             'category_id' => 'required|numeric',
         ];
     
-        $messages = [
-            'name.required' => 'El nombre es requerido',
-            'name.min' => 'El nombre debe tener al menos 5 caracteres.',
-            'name.max' => 'El nombre no puede exceder los 255 caracteres.',
-            'name.unique' => 'El nombre ya está registrado en las categorías.',
-            'description.max' => 'La descripción no puede exceder los 255 caracteres.',
-            'precio_compra.numeric' => 'El precio de compra debe ser un número.',
-            'precio_venta.required' => 'El precio de venta es obligatorio.',
-            'precio_venta.numeric' => 'El precio de venta debe ser un número.',
-            'stock.required' => 'El stock es obligatorio.',
-            'stock.numeric' => 'El stock debe ser un número.',
-            'stock_minimo.numeric' => 'El stock mínimo debe ser un número.',
-            'image.image' => 'El archivo debe ser una imagen.',
-            'image.max' => 'La imagen no puede exceder los 1024KB.',
-            'category_id.required' => 'La categoría es obligatoria.',
-            'category_id.numeric' => 'La categoría debe ser un número válido.',
-        ];
     
-        $this->validate($rules, $messages);
+        $this->validate($rules);
 
         $product = new Product();
         
