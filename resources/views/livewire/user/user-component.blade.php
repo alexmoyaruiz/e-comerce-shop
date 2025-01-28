@@ -29,7 +29,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->admin ? __('Administrador') : __('Vendedor') }}</td>
-                    <td>{{ $user->active ? __('Activo') : __('Inactivo') }}</td>
+                    <td>{!!$user->activeLabel!!}</td>
                     <td>
                         <a href="{{route('user.show', $user)}}" class="btn btn-success bt-sm" title="{{ __('Ver') }}">
                             <i class="far fa-eye"></i>
@@ -41,7 +41,7 @@
                         </a>
                     </td>
                     <td>
-                        <a wire:click="$dispatch('delete', {id: {{$user->id}}, eventName: 'destroyProduct'})"
+                        <a wire:click="$dispatch('delete', {id: {{$user->id}}, eventName: 'destroyUser'})"
                             class="btn btn-danger bt-sm" title="{{ __('Eliminar') }}">
                             <i class="far fa-trash-alt"></i>
                          </a>

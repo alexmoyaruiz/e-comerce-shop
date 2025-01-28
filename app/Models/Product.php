@@ -23,7 +23,7 @@ class Product extends Model
     }
 
     // Atributo stockLabel
-    protected function stockLabel(): Attribute
+    protected function stockLabel(): Attribute//Muestra en la vista el stock de forma dinámica
     {
         return Attribute::make(
             get: function () {
@@ -34,7 +34,7 @@ class Product extends Model
         );
     }
 
-    protected function precio(): Attribute
+    protected function precio(): Attribute//Muestra en la vista el frecio con formato
     {
         return Attribute::make(
             get: function () {
@@ -44,7 +44,7 @@ class Product extends Model
     }
     
 
-    protected function activeLabel(): Attribute
+    protected function activeLabel(): Attribute//Muestra si el producto está activo o no de forma dinámica
     {
         return Attribute::make(
             get: function () {

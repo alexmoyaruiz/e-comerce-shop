@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 
 #[Title('Usuarios')]
 class UserComponent extends Component
@@ -145,6 +146,23 @@ class UserComponent extends Component
         $this->dispatch('msg', 'Usuario editado correctamente');
 
         $this->clean();
+    }
+
+    #[On('destroyUser')]//Elimina el usuario por el Id
+    public function destroy ($id)
+    {
+
+        $user = User::findOrfail($id);
+
+           if($user->image!=null){//Si el producto contiene imagen también la elimina del servidor
+                Storage::delete('public/'.$user->image->url);
+                $user->image()->delete();
+            }
+
+            $user->delete();
+
+            $this->dispatch('msg', 'Producto eliminado correctamente');
+            
     }
 
     public function render()

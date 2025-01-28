@@ -24,6 +24,9 @@
                             <b>{{__('Perfil')}}</b> <a class="float-right">{{$user->admin ? __('Administrador') : __('Empleado')}}</a>
                         </li>
                         <li class="list-group-item">
+                            <b>{{__('Estado')}}</b> <a class="float-right">{!!$user->activeLabel!!}</a>
+                        </li>
+                        <li class="list-group-item">
                             <b>{{__('Creado')}}</b> <a class="float-right">{{$user->created_at}}</a>
                         </li>
                      
